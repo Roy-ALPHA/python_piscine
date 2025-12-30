@@ -4,7 +4,8 @@ class Plant:
         self.name = name
         self.height = height
         self.age = age
-plants = [Plant("Rose", 25, 30), Plant("Sunflower", 80, 45), Plant("Cactus", 15, 120)]
-print("=== Garden Plant Registry ===")
-for elem in plants:
-    print(f"{elem.name}: {elem.height}cm, {elem.age} days old")
+if __name__ == "__main__":
+    plants = [Plant("Rose", 25, 30), Plant("Sunflower", 80, 45), Plant("Cactus", 15, 120)]
+    print("=== Garden Plant Registry ===")
+    for elem in plants:
+        print(f"{elem.name}: {elem.height}cm, {elem.age} days old")
