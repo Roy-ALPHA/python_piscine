@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-def garden_operations():
+def garden_operations() -> None:
     """
     Demonstrates common garden-related errors in Python:
     - ValueError when converting a bad string to int
@@ -9,40 +9,39 @@ def garden_operations():
     - Multiple errors caught together
     Each error is caught and explained, and the program continues.
     """
+    print("Testing ValueError...")
     try:
-        num = int("abc")
+        int("abc")
     except ValueError:
-        print("Testing ValueError...")
         print("Caught ValueError: invalid literal for int()\n")
 
+    print("Testing ZeroDivisionError...")
     try:
-        res = 1 / 0
+        1 / 0
     except ZeroDivisionError:
-        print("Testing ZeroDivisionError...")
         print("Caught ZeroDivisionError: division by zero\n")
 
+    print("Testing FileNotFoundError...")
     try:
-        tmp1 = "test.txt"
-        open(tmp1)
+        open("missing.txt")
     except FileNotFoundError:
-        print("Testing FileNotFoundError...")
-        print(f"Caught FileNotFoundError: No such file '{tmp1}'\n")
+        print("Caught FileNotFoundError: No such file 'missing.txt'\n")
 
+    print("Testing KeyError...")
     try:
-        d = {"name": "Ali"}
-        tmp2 = "age"
-        print(d[tmp2])
+        test = {"name": "Ali"}
+        print(test["plant"])
     except KeyError:
-        print("Testing KeyError...")
-        print(f"Caught KeyError: 'missing\\_{tmp2}'\n")
+        print("Caught KeyError: 'missing\\_plant'\n")
 
+    print("Testing multiple errors together...")
     try:
         int("xyz")
     except (ValueError, ZeroDivisionError):
-        print("Testing multiple errors together...")
         print("Caught an error, but program continues!\n")
 
-def test_error_types():
+
+def test_error_types() -> None:
     """
     Runs all garden_operations error tests and prints a summary.
     Demonstrates that Python continues execution after each handled error.

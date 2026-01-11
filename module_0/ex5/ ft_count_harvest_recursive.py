@@ -3,6 +3,8 @@ def rec_num(num):
         return
     rec_num(num - 1)
     print("Day :", num)
+
+
 def ft_count_harvest_recursive():
     days = int(input("Days until harvest: "))
     rec_num(days)
