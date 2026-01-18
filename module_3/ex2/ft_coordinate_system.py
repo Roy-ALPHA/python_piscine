@@ -1,35 +1,38 @@
 #!/usr/bin/env python3
 import sys
 import math
-def get_error(lis):
-    try:
-        lis[0] = int(lis[0])
-    except:
-        return lis[0]
 
-    try:
-        lis[1] = int(lis[1])
-    except:
-        return lis[1]
-
-    try:
-        lis[2] = int(lis[2])
-    except:
-        return lis[2]
 print("=== Game Coordinate System ===\n")
 try:
     lis_args = sys.argv[1].split(",")
     lis_args[0] = int(lis_args[0])
     lis_args[1] = int(lis_args[1])
     lis_args[2] = int(lis_args[2])
-    x, y, z = tuple(lis_args)
-    print(f'Parsing coordinates: "{x}, {y}, {z}"')
-    print(f"Parsed position: ({x}, {y}, {z})")
-    print(f"Distance between (0, 0, 0) and ({x}, {y}, {z}): {float(math.sqrt((x-0)**2 + (y-0)**2 + (z-0)**2))}\n")
+    origin = (0, 0, 0)
+    position = (10, 20, 5)
+    x1, y1, z1 = origin
+    x2, y2, z2 = position
+    distance = math.sqrt((x2-x1)**2 + (y2-y1)**2 + (z2-z1)**2)
+    print(f"Position created: {position}")
+    print(f"Distance between {origin} and {position}: {distance:.2f}\n")
+    position = tuple(lis_args)
+    x2, y2, z2 = position
+    distance = math.sqrt((x2-x1)**2 + (y2-y1)**2 + (z2-z1)**2)
+    print(f'Parsing coordinates: "{x2},{y2},{z2}"')
+    print(f"Parsed position: {position}")
+    print(f"Distance between {origin} and {position}: "
+          f"{distance:.1f}\n")
     print("Unpacking demonstration: ")
-    print(f"Player at x={x}, y={y}, z={z}")
-    print(f"Coordinates: X={x}, Y={y}, Z={z}")
-except:
-    print(f'Parsing invalid coordinates: "{lis_args[0]}", "{lis_args[1]}", "{lis_args[2]}"')
-    print(f"Error parsing coordinates: invalid literal for int() with base 10: '{get_error(lis_args)}'")
-    print(f'Error details - Type: ValueError, Args: ("invalid literal for int() with base 10: \'{get_error(lis_args)}\'",)')
+    print(f"Player at x={x2}, y={y2}, z={z2}")
+    print(f"Coordinates: X={x2}, Y={y2}, Z={z2}")
+except ValueError as e:
+    try:
+        print(f'Parsing invalid coordinates: '
+              f'"{lis_args[0]},{lis_args[1]},{lis_args[2]}"')
+        print(f"Error parsing coordinates: {e}")
+        print(f'Error details - Type: ValueError, Args: ("{e}",)')
+    except IndexError:
+        print("Invalid format!")
+
+except IndexError:
+    print("No arguments provided!")

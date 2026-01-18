@@ -66,6 +66,7 @@ class GardenManager:
             garden (str): Name of the garden.
         """
         self.garden = garden
+        GardenManager.gardens += [self]
 
     def add_plant(self, plants: list, tba3: bool) -> None:
         """
@@ -80,7 +81,6 @@ class GardenManager:
         if tba3 is True:
             for elem in self.plants:
                 print(f"Added {elem.name} to {self.garden}'s garden")
-        GardenManager.gardens += [self]
 
     def grow(self) -> None:
         """

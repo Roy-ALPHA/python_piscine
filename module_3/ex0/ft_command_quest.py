@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import sys
+
+
 def print_av(av):
     if len(av) > 1:
         print(f"Arguments received: {len(av) - 1}")
@@ -8,6 +10,8 @@ def print_av(av):
             print(f"Argument {i}: {av[i]}")
             i += 1
     print(f"Total arguments: {len(av)}")
+
+
 print("=== Command Quest ===")
 if len(sys.argv) == 1:
     print("No arguments provided!")
