@@ -28,7 +28,7 @@ class SecurePlant:
         Returns:
             int: The plant height in centimeters.
         """
-        return self.height
+        return self.__height
 
     def get_age(self) -> int:
         """
@@ -37,7 +37,7 @@ class SecurePlant:
         Returns:
             int: The plant age in days.
         """
-        return self.age
+        return self.__age
 
     def set_age(self, age: int) -> None:
         """
@@ -47,7 +47,7 @@ class SecurePlant:
             age (int): The new age value in days.
         """
         if SecurePlant.is_valid(age) is True:
-            self.age = age
+            self.__age = age
             print(f"Age updated: {age} days [OK]")
         else:
             print(f"Invalid operation attempted: age {age} days [REJECTED]")
@@ -61,7 +61,7 @@ class SecurePlant:
             height (int): The new height value in centimeters.
         """
         if SecurePlant.is_valid(height) is True:
-            self.height = height
+            self.__height = height
             print(f"Height updated: {height}cm [OK]")
         else:
             print(f"Invalid operation attempted: height {height}cm [REJECTED]")
@@ -78,19 +78,19 @@ class SecurePlant:
         """
         self.name = name
         if SecurePlant.is_valid(height) is True:
-            self.height = height
+            self.__height = height
         else:
             print(f"Invalid operation attempted: height {height}cm [REJECTED]")
             print("Security: Negative height rejected")
             print("Action taken: height set to 0")
-            self.height = 0
+            self.__height = 0
         if SecurePlant.is_valid(age) is True:
-            self.age = age
+            self.__age = age
         else:
             print(f"Invalid operation attempted: age {age} days [REJECTED]")
             print("Security: Negative age rejected")
             print("Action taken: age set to 0")
-            self.age = 0
+            self.__age = 0
         print(f"Plant created: {self.name}")
 
 
