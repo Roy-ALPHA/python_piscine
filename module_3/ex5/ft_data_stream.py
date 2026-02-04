@@ -30,17 +30,19 @@ def check(n) -> bool:
     return True
 
 
-def prime_num_gen():
-    i = 2
-    while True:
-        if check(i) is True:
-            yield i
-        i += 1
+def prime_num_gen(n):
+    prime = 2
+    i = 0
+    while i < n:
+        if check(prime) is True:
+            yield prime
+            i += 1
+        prime += 1
 
 
 print("=== Game Data Stream Processor ===\n")
 print("Processing 1000 game events...\n")
-count = 1
+count = 0
 hp_level = 0
 treasure_ach = 0
 lp_ach = 0
@@ -51,11 +53,11 @@ for player in event_generator():
         treasure_ach += 1
     if player.get("ach") == "leveled up":
         lp_ach += 1
-    print(f"Event {count}: Player {player.get("player")} "
+    print(f"Event {count + 1}: Player {player.get("player")} "
           f"(level {player.get("level")}) {player.get("ach")}")
     count += 1
 print("\n=== Stream Analytics ===")
-print(f"Total events processed: {count - 1}")
+print(f"Total events processed: {count}")
 print(f"High-level players (10+): {hp_level}")
 print(f"Treasure events: {treasure_ach}")
 print(f"Level-up events: {lp_ach}\n")
@@ -63,14 +65,12 @@ print("Memory usage: Constant (streaming)")
 print("Processing time: 0.045 seconds\n")
 print("=== Generator Demonstration ===")
 print("Fibonacci sequence (first 10):", end=" ")
-fib = fibonacci_gen(10)
 lis = list()
-for n in range(10):
-    lis += [next(fib)]
+for n in fibonacci_gen(10):
+    lis += [n]
 print(str(lis)[1:-1])
 lis = list()
-gen = iter(prime_num_gen())
-for prime in range(5):
-    lis += [next(gen)]
+for prime in prime_num_gen(5):
+    lis += [prime]
 print("Prime numbers (first 5):", end=' ')
 print(str(lis)[1:-1])
