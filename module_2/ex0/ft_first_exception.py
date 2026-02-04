@@ -15,8 +15,12 @@ def check_temperature(temp_str: str) -> None:
 
 def test_temperature_input() -> None:
     print("=== Garden Temperature Checker ===\n")
-    check_temperature(25)
+    check_temperature("25")
     check_temperature("abc")
-    check_temperature(100)
-    check_temperature(-50)
+    check_temperature("100")
+    check_temperature("-50")
     print("All tests completed - program didn't crash!")
+
+
+if __name__ == "__main__":
+    test_temperature_input()

@@ -2,7 +2,7 @@
 import sys
 
 
-def args_to_list(args):
+def args_to_list(args: list) -> bool | list:
     lis = []
     i = 1
     try:
@@ -20,7 +20,7 @@ if len(sys.argv) > 1 and scores is not False:
     print(f"Scores processed:  {scores}")
     print(f"Total players: {len(scores)}")
     print(f"Total score: {sum(scores)}")
-    print(f"Average score: {sum(scores) / len(scores)}")
+    print(f"Average score: {sum(scores) / len(scores):.1f}")
     print(f"High score: {max(scores)}")
     print(f"Low score: {min(scores)}")
     print(f"Score range: {max(scores) - min(scores)}")

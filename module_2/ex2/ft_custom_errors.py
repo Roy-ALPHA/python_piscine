@@ -89,3 +89,7 @@ def test_errors() -> None:
     except GardenError as e:
         print(f"Caught a garden error: {e}\n")
     print("All custom error types work correctly!")
+
+
+if __name__ == "__main__":
+    test_errors()

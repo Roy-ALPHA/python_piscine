@@ -30,7 +30,8 @@ except ValueError as e:
         print(f'Parsing invalid coordinates: '
               f'"{lis_args[0]},{lis_args[1]},{lis_args[2]}"')
         print(f"Error parsing coordinates: {e}")
-        print(f'Error details - Type: ValueError, Args: ("{e}",)')
+        (error_msg,) = e.args
+        print(f'Error details - Type: ValueError, Args: ("{error_msg}",)')
     except IndexError:
         print("Invalid format!")
 

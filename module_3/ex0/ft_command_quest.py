@@ -2,7 +2,7 @@
 import sys
 
 
-def print_av(av):
+def print_av(av: list) -> None:
     if len(av) > 1:
         print(f"Arguments received: {len(av) - 1}")
         i = 1
