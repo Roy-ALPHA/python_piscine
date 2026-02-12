@@ -32,14 +32,18 @@ class NumericProcessor(DataProcessor):
 
     def validate(self, data: list[int]) -> bool:
         if isinstance(data, list) is False:
-            raise AllErrors("Error: Invalid data type: expected a list of numbers")
+            raise AllErrors(
+                "Error: Invalid data type: expected a list of numbers"
+            )
 
         if len(data) == 0:
             raise AllErrors("Error: Cannot process empty list")
 
         for elem in data:
             if isinstance(elem, int) is False:
-                raise AllErrors("Error: Invalid element: all items must be integers")
+                raise AllErrors(
+                    "Error: Invalid element: all items must be integers"
+                )
         return True
 
     def format_output(self, result: str) -> str:
@@ -51,7 +55,8 @@ class TextProcessor(DataProcessor):
     def process(self, data: str) -> str:
         if self.validate(data):
             return (
-                f"Processed text: {len(data)} characters, " f"{len(data.split())} words"
+                f"Processed text: {len(data)} characters, "
+                f"{len(data.split())} words"
             )
 
     def validate(self, data: str) -> bool:
@@ -72,14 +77,18 @@ class LogProcessor(DataProcessor):
             log_level, flag = (
                 ("[ALERT]", "ERROR") if "ERROR" in data else ("[INFO]", "INFO")
             )
-            return f"{log_level} {flag} level detected: " f"{data.split(":")[1]}"
+            return (f"{log_level} {flag} level detected: "
+                    f"{data.split(":")[1]}")
 
     def validate(self, data: str) -> bool:
         if isinstance(data, str) is False:
-            raise AllErrors("Error: Invalid data type: expected a log entry string")
+            raise AllErrors(
+                "Error: Invalid data type: expected a log entry string"
+            )
         elif not data:
             raise AllErrors("Cannot process empty log entry")
-        elif data.startswith("ERROR:") is False and data.startswith("INFO:") is False:
+        elif (data.startswith("ERROR:") is False
+              and data.startswith("INFO:") is False):
             raise AllErrors("Malformed log entry: expected 'LEVEL: message'")
         return True
 

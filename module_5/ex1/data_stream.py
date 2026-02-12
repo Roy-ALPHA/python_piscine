@@ -25,7 +25,9 @@ class DataProcessor(ABC):
     def filter_data(
         self, data_batch: List[Any], criteria: Optional[str] = None
     ) -> List[Any]:
-        raise StreamErrors("Error: filter_data not implemented for this stream")
+        raise StreamErrors(
+            "Error: filter_data not implemented for this stream"
+        )
 
     def get_stats(self) -> Dict[str, Union[str, int, float]]:
         return {"stream_id": self.stream_id}
@@ -58,7 +60,9 @@ class SensorStream(DataProcessor):
         self, data_batch: List[Any], criteria: Optional[str] = None
     ) -> List[Any]:
         if isinstance(data_batch, list) is False or len(data_batch) == 0:
-            raise StreamErrors("Error: invalid data_batch: expected non-empty list")
+            raise StreamErrors(
+                "Error: invalid data_batch: expected non-empty list"
+            )
 
         temps = list()
         if criteria == "temp":
@@ -77,9 +81,13 @@ class SensorStream(DataProcessor):
                     try:
                         temps += [float(split_data[1])]
                     except ValueError:
-                        raise StreamErrors("Error: sensor value must be numeric")
+                        raise StreamErrors(
+                            "Error: sensor value must be numeric"
+                        )
             if len(temps) == 0:
-                raise StreamErrors("Error: no temperature readings found in batch")
+                raise StreamErrors(
+                    "Error: no temperature readings found in batch"
+                )
             else:
                 return temps
 
@@ -107,7 +115,9 @@ class TransactionStream(DataProcessor):
         self, data_batch: List[Any], criteria: Optional[str] = None
     ) -> List[Any]:
         if isinstance(data_batch, list) is False or len(data_batch) == 0:
-            raise StreamErrors("Error: invalid data_batch: expected non-empty list")
+            raise StreamErrors(
+                "Error: invalid data_batch: expected non-empty list"
+            )
 
         if criteria == "high_tr":
             buy = 0
@@ -119,7 +129,8 @@ class TransactionStream(DataProcessor):
                     )
                 if data.count(":") != 1:
                     raise StreamErrors(
-                        "Error: malformed transaction entry, " "expected 'key:value'"
+                        "Error: malformed transaction entry, "
+                        "expected 'key:value'"
                     )
                 split_data = data.split(":")
                 try:
@@ -128,7 +139,9 @@ class TransactionStream(DataProcessor):
                     else:
                         sell += int(split_data[1])
                 except ValueError:
-                    raise StreamErrors("Error: transaction value must be integer")
+                    raise StreamErrors(
+                        "Error: transaction value must be integer"
+                    )
             return [buy - sell]
 
     def get_stats(self) -> Dict[str, Union[str, int, float]]:
@@ -152,7 +165,9 @@ class EventStream(DataProcessor):
         self, data_batch: List[Any], criteria: Optional[str] = None
     ) -> List[Any]:
         if isinstance(data_batch, list) is False or len(data_batch) == 0:
-            raise StreamErrors("Error: invalid data_batch: expected non-empty list")
+            raise StreamErrors(
+                "Error: invalid data_batch: expected non-empty list"
+            )
 
         if len(data_batch) == 0:
             raise StreamErrors("Error: empty data batch")
@@ -228,7 +243,8 @@ if __name__ == "__main__":
     sensor_data = ["temp:22.5", "humidity:65"]
     try:
         print(
-            "- Sensor data: " f"{stream.run_stream(sensor, sensor_data).split(",")[0]}"
+            "- Sensor data: "
+            f"{stream.run_stream(sensor, sensor_data).split(",")[0]}"
         )
     except StreamErrors as e:
         print(e)

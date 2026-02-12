@@ -84,7 +84,8 @@ class OutputStage:
             )
         elif dtype == "CSV":
             return (
-                f"User activity logged: {data.get("actions_proc")} " "actions processed"
+                f"User activity logged: {data.get("actions_proc")} "
+                "actions processed"
             )
         elif dtype == "stream":
             return (
