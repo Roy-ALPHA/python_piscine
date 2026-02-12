@@ -2,7 +2,7 @@
 import sys
 
 
-def sort_dict(inventory):
+def sort_dict(inventory) -> dict:
 
     items = list(inventory.values())
     items.sort(reverse=True)

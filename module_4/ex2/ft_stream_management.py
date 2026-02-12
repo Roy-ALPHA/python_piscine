@@ -1,12 +1,14 @@
-# !/usr/bin/env python3
+#!/usr/bin/env python3
 import sys
 
 
 print("=== CYBER ARCHIVES - COMMUNICATION SYSTEM ===\n")
-id = input("Input Stream active. Enter archivist ID: ")
+archivist_id = input("Input Stream active. Enter archivist ID: ")
 report = input("Input Stream active. Enter status report: ")
 
-sys.stdout.write(f"\n[STANDARD] Archive status from {id}: {report}\n")
+sys.stdout.write(
+    f"\n[STANDARD] Archive status from {archivist_id}: {report}\n"
+)
 sys.stderr.write(
     "[ALERT] System diagnostic: Communication channels verified\n"
     )

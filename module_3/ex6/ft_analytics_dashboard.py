@@ -68,15 +68,19 @@ tmp = {
         }
 print(f"Active regions: {tmp}\n")
 print("=== Combined Analysis ===")
-print(f"Total players: {len([player for player in players])}")
-tmp = len(set([players.get(player).get("favorite_mode")for player in players]))
+pls = len([player for player in players])
+print(f"Total players: {pls}")
+tmp = len({players.get(player).get("favorite_mode")for player in players})
 print(f"Total unique modes: {tmp}")
-tmp = sum([players.get(player).get("total_score") for player in players]) / tmp
+tmp = sum([players.get(player).get("total_score") for player in players]) / pls
 print(f"Average score: {tmp:.1f}")
 tmp = [players.get(player).get("total_score") for player in players]
 achiv = {
          player: players.get(player).get('achievements_count')
          for player in players
          if players.get(player).get('total_score') == max(tmp)}
-print(f"Top performer: {str(list(achiv.keys()))[2:-2]} ({max(tmp)} "
-      f"points, {str(list(achiv.values()))[1:-1]} achievements)")
+
+for player, points in achiv.items():
+    print(
+        f"Top performer: {player} ({players.get(player).get('total_score')} "
+        f"points, {points} achievements)")

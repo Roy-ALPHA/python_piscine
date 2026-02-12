@@ -3,7 +3,7 @@ print("=== CYBER ARCHIVES - DATA RECOVERY SYSTEM ===")
 fil = "ancient_fragment.txt"
 f = None
 try:
-    f = open(fil)
+    f = open(fil, "r")
     print(f"Accessing Storage Vault: {fil}")
     print("Connection established...\n")
     print("RECOVERED DATA:")

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-def event_generator():
+def event_generator(n):
     players = ["alice", "bob", "charlie"]
     ach = ["killed monster", "found treasure", "leveled up"]
     level = [5, 12, 8]
-    for i in range(1000):
+    for i in range(n):
         yield {
             "player": players[i % len(players)],
             "ach": ach[i % len(ach)],
@@ -13,12 +13,12 @@ def event_generator():
 
 def fibonacci_gen(n):
     prev = 0
-    cur = 1
+    next_fib = 1
     for i in range(n):
         yield prev
-        tmp = cur + prev
-        prev = cur
-        cur = tmp
+        tmp = next_fib + prev
+        prev = next_fib
+        next_fib = tmp
 
 
 def check(n) -> bool:
@@ -46,7 +46,7 @@ count = 0
 hp_level = 0
 treasure_ach = 0
 lp_ach = 0
-for player in event_generator():
+for player in event_generator(1000):
     if player.get("level") > 10:
         hp_level += 1
     if player.get("ach") == "found treasure":
@@ -56,6 +56,7 @@ for player in event_generator():
     print(f"Event {count + 1}: Player {player.get("player")} "
           f"(level {player.get("level")}) {player.get("ach")}")
     count += 1
+
 print("\n=== Stream Analytics ===")
 print(f"Total events processed: {count}")
 print(f"High-level players (10+): {hp_level}")
@@ -63,6 +64,7 @@ print(f"Treasure events: {treasure_ach}")
 print(f"Level-up events: {lp_ach}\n")
 print("Memory usage: Constant (streaming)")
 print("Processing time: 0.045 seconds\n")
+
 print("=== Generator Demonstration ===")
 print("Fibonacci sequence (first 10):", end=" ")
 lis = list()

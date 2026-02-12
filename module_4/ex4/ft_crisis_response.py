@@ -1,4 +1,4 @@
-# !/usr/bin/env python3
+#!/usr/bin/env python3
 def crisis_management(file_name):
     try:
         with open(file_name, "r") as file:
