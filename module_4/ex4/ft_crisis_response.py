@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-def crisis_management(file_name):
+
+
+def crisis_management(file_name: str) -> tuple[bool, str | None]:
     try:
         with open(file_name, "r") as file:
             lines = file.read()
