@@ -48,6 +48,7 @@ for arg in sys.argv[1:]:
     inventory.update({key: value})
 
 print("=== Inventory System Analysis ===")
+
 total_items = sum(inventory.values())
 print(f"Total items in inventory: {total_items}")
 print(f"Unique item types: {len(set(inventory.keys()))}\n")
@@ -60,9 +61,11 @@ for item, quantity in inventory_sorted.items():
 print("\n=== Inventory Statistics ===")
 for item, quantity in inventory_sorted.items():
     if quantity == max(inventory_sorted.values()):
-        print(f"Most abundant: {item} ({quantity} units)")
+        print(f"Most abundant: {item} ({quantity} "
+              f"{"units" if quantity > 1 else "unit"})")
     elif quantity == min(inventory_sorted.values()):
-        print(f"Least abundant: {item} ({quantity} units)")
+        print(f"Least abundant: {item} ({quantity} "
+              f"{"units" if quantity > 1 else "unit"})")
         break
 
 print("\n=== Item Categories ===")
@@ -83,7 +86,7 @@ abundance.update({"Scarce": scarce})
 print(f"Moderate: {abundance.get('Moderate')}")
 print(f"Scarce: {abundance.get('Scarce')}")
 
-print("\n=== Item Categories ===")
+print("\n=== Management Suggestions ===")
 
 restock_needed = list()
 min_item = min(inventory.values())

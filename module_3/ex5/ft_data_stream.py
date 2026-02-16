@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-def event_generator(n):
+import typing
+
+
+def event_generator(n) -> typing.Generator:
     players = ["alice", "bob", "charlie"]
     ach = ["killed monster", "found treasure", "leveled up"]
     level = [5, 12, 8]
@@ -11,7 +14,7 @@ def event_generator(n):
         }
 
 
-def fibonacci_gen(n):
+def fibonacci_gen(n) -> typing.Generator:
     prev = 0
     next_fib = 1
     for i in range(n):
@@ -30,7 +33,7 @@ def check(n) -> bool:
     return True
 
 
-def prime_num_gen(n):
+def prime_num_gen(n) -> typing.Generator:
     prime = 2
     i = 0
     while i < n:
