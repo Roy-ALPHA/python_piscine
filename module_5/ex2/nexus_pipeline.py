@@ -153,7 +153,7 @@ class NexusManager:
     def __init__(self) -> None:
         self.pipelines = list()
 
-    def add_pipeline(self, pipeline) -> None:
+    def add_pipeline(self, pipeline: Any) -> None:
         self.pipelines.append(pipeline)
 
     def process_data(self, data: Any) -> list[str]:

@@ -7,7 +7,7 @@ class StreamErrors(Exception):
     pass
 
 
-class DataProcessor(ABC):
+class DataStream(ABC):
 
     def __init__(self, stream_id: str) -> None:
 
@@ -35,14 +35,14 @@ class DataProcessor(ABC):
 
 class StreamProcessor:
 
-    def run_stream(self, stream, data: list[Any]) -> str:
+    def run_stream(self, stream: Any, data: list[Any]) -> str:
         return stream.process_batch(data)
 
-    def filter(self, stream, criteria: str, data: list[Any]) -> list[Any]:
+    def filter(self, stream: Any, criteria: str, data: list[Any]) -> list[Any]:
         return stream.filter_data(data, criteria)
 
 
-class SensorStream(DataProcessor):
+class SensorStream(DataStream):
 
     def __init__(self, stream_id: str) -> None:
         super().__init__(stream_id)
@@ -59,7 +59,7 @@ class SensorStream(DataProcessor):
     def filter_data(
         self, data_batch: List[Any], criteria: Optional[str] = None
     ) -> List[Any]:
-        if isinstance(data_batch, list) is False or len(data_batch) == 0:
+        if not isinstance(data_batch, list) or len(data_batch) == 0:
             raise StreamErrors(
                 "Error: invalid data_batch: expected non-empty list"
             )
@@ -76,20 +76,20 @@ class SensorStream(DataProcessor):
                     raise StreamErrors(
                         "Error: malformed sensor reading, expected 'key:value'"
                     )
-                split_data = data.split(":")
-                if split_data[0] == "temp":
-                    try:
-                        temps += [float(split_data[1])]
-                    except ValueError:
-                        raise StreamErrors(
-                            "Error: sensor value must be numeric"
-                        )
+            try:
+                temps = [
+                    float(data.split(":")[1])
+                    for data in data_batch if data.split(":")[0] == "temp"
+                ]
+            except ValueError:
+                raise StreamErrors(
+                    "Error: sensor value must be numeric"
+                )
             if len(temps) == 0:
                 raise StreamErrors(
                     "Error: no temperature readings found in batch"
                 )
-            else:
-                return temps
+            return temps
 
     def get_stats(self) -> Dict[str, Union[str, int, float]]:
         stats = super().get_stats()
@@ -97,7 +97,7 @@ class SensorStream(DataProcessor):
         return stats
 
 
-class TransactionStream(DataProcessor):
+class TransactionStream(DataStream):
 
     def __init__(self, stream_id: str) -> None:
         super().__init__(stream_id)
@@ -107,7 +107,7 @@ class TransactionStream(DataProcessor):
 
         filter = self.filter_data(data_batch, "high_tr")
         return (
-            f"{len(data_batch)} operations,  net flow: "
+            f"{len(data_batch)} operations, net flow: "
             f"{'+' if filter[0] > 0 else ''}{filter[0]} units"
         )
 
@@ -132,16 +132,23 @@ class TransactionStream(DataProcessor):
                         "Error: malformed transaction entry, "
                         "expected 'key:value'"
                     )
-                split_data = data.split(":")
-                try:
-                    if split_data[0] == "buy":
-                        buy += int(split_data[1])
-                    else:
-                        sell += int(split_data[1])
-                except ValueError:
-                    raise StreamErrors(
-                        "Error: transaction value must be integer"
-                    )
+            try:
+                buy = sum(
+                    [
+                        int(data.split(":")[1])
+                        for data in data_batch if data.split(":")[0] == "buy"
+                    ]
+                )
+                sell = sum(
+                    [
+                        int(data.split(":")[1])
+                        for data in data_batch if data.split(":")[0] == "sell"
+                    ]
+                )
+            except ValueError:
+                raise StreamErrors(
+                    "Error: transaction value must be integer"
+                )
             return [buy - sell]
 
     def get_stats(self) -> Dict[str, Union[str, int, float]]:
@@ -150,7 +157,7 @@ class TransactionStream(DataProcessor):
         return stats
 
 
-class EventStream(DataProcessor):
+class EventStream(DataStream):
 
     def __init__(self, stream_id: str) -> None:
         super().__init__(stream_id)

@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from typing import Any
 
 
-class AllErrors(Exception):
+class ErrorManager(Exception):
     pass
 
 
@@ -32,16 +32,16 @@ class NumericProcessor(DataProcessor):
 
     def validate(self, data: list[int]) -> bool:
         if isinstance(data, list) is False:
-            raise AllErrors(
+            raise ErrorManager(
                 "Error: Invalid data type: expected a list of numbers"
             )
 
         if len(data) == 0:
-            raise AllErrors("Error: Cannot process empty list")
+            raise ErrorManager("Error: Cannot process empty list")
 
         for elem in data:
             if isinstance(elem, int) is False:
-                raise AllErrors(
+                raise ErrorManager(
                     "Error: Invalid element: all items must be integers"
                 )
         return True
@@ -61,9 +61,9 @@ class TextProcessor(DataProcessor):
 
     def validate(self, data: str) -> bool:
         if isinstance(data, str) is False:
-            raise AllErrors("Error: Invalid data type: expected a string")
+            raise ErrorManager("Error: Invalid data type: expected a string")
         elif not data:
-            raise AllErrors("Error: Cannot process empty text")
+            raise ErrorManager("Error: Cannot process empty text")
         return True
 
     def format_output(self, result: str) -> str:
@@ -77,19 +77,21 @@ class LogProcessor(DataProcessor):
             log_level, flag = (
                 ("[ALERT]", "ERROR") if "ERROR" in data else ("[INFO]", "INFO")
             )
-            return (f"{log_level} {flag} level detected: "
-                    f"{data.split(":")[1]}")
+            return (f"{log_level} {flag} level detected:"
+                    f"{data.split(':')[1]}")
 
     def validate(self, data: str) -> bool:
         if isinstance(data, str) is False:
-            raise AllErrors(
+            raise ErrorManager(
                 "Error: Invalid data type: expected a log entry string"
             )
         elif not data:
-            raise AllErrors("Cannot process empty log entry")
+            raise ErrorManager("Cannot process empty log entry")
         elif (data.startswith("ERROR:") is False
               and data.startswith("INFO:") is False):
-            raise AllErrors("Malformed log entry: expected 'LEVEL: message'")
+            raise ErrorManager(
+                "Malformed log entry: expected 'LEVEL: message'"
+            )
         return True
 
     def format_output(self, result: str) -> str:
@@ -108,7 +110,7 @@ if __name__ == "__main__":
             print("Validation: Numeric data verified")
         res = num_obj.process(data)
         print(num_obj.format_output(res))
-    except AllErrors as e:
+    except ErrorManager as e:
         print(e)
 
     print("\nInitializing Text Processor...")
@@ -120,7 +122,7 @@ if __name__ == "__main__":
             print("Validation: Text data verified")
         res = text_obj.process(data)
         print(text_obj.format_output(res))
-    except AllErrors as e:
+    except ErrorManager as e:
         print(e)
 
     print("\nInitializing Log Processor...")
@@ -132,7 +134,7 @@ if __name__ == "__main__":
             print("Validation: Log entry verified")
         res = log_obj.process(data)
         print(log_obj.format_output(res))
-    except AllErrors as e:
+    except ErrorManager as e:
         print(e)
 
     print("\n=== Polymorphic Processing Demo ===\n")
@@ -142,19 +144,19 @@ if __name__ == "__main__":
     data = [2, 3, 1]
     try:
         print(f"Result 1: {num_obj.process(data)}")
-    except AllErrors as e:
+    except ErrorManager as e:
         print(e)
 
     data = "Hello World!"
     try:
         print(f"Result 2: {text_obj.process(data)}")
-    except AllErrors as e:
+    except ErrorManager as e:
         print(e)
 
     data = "INFO: System ready"
     try:
         print(f"Result 3: {log_obj.process(data)}")
-    except AllErrors as e:
+    except ErrorManager as e:
         print(e)
 
     print("\nFoundation systems online. Nexus ready for advanced streams.")
