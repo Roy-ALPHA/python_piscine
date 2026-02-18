@@ -16,7 +16,7 @@ class DataStream(ABC):
         if not stream_id:
             raise StreamErrors("Error: stream_id cannot be empty")
 
-        self.stream_id = stream_id
+        self.stream_id: str = stream_id
 
     @abstractmethod
     def process_batch(self, data_batch: List[Any]) -> str:
@@ -35,10 +35,11 @@ class DataStream(ABC):
 
 class StreamProcessor:
 
-    def run_stream(self, stream: Any, data: list[Any]) -> str:
+    def run_stream(self, stream: DataStream, data: list[Any]) -> str:
         return stream.process_batch(data)
 
-    def filter(self, stream: Any, criteria: str, data: list[Any]) -> list[Any]:
+    def filter(self, stream: DataStream, criteria: str,
+               data: list[Any]) -> list[Any]:
         return stream.filter_data(data, criteria)
 
 
@@ -46,11 +47,11 @@ class SensorStream(DataStream):
 
     def __init__(self, stream_id: str) -> None:
         super().__init__(stream_id)
-        self.type = "Environmental Data"
+        self.type: str = "Environmental Data"
 
     def process_batch(self, data_batch: List[Any]) -> str:
 
-        filter = self.filter_data(data_batch, "temp")
+        filter: List[float] = self.filter_data(data_batch, "temp")
         return (
             f"{len(data_batch)} readings processed, avg temp: "
             f"{sum(filter) / len(filter)}°C"
@@ -64,7 +65,7 @@ class SensorStream(DataStream):
                 "Error: invalid data_batch: expected non-empty list"
             )
 
-        temps = list()
+        temps: List[float] = list()
         if criteria == "temp":
 
             for data in data_batch:
@@ -92,7 +93,7 @@ class SensorStream(DataStream):
             return temps
 
     def get_stats(self) -> Dict[str, Union[str, int, float]]:
-        stats = super().get_stats()
+        stats: Dict[str, Union[str, int, float]] = super().get_stats()
         stats.update({"type": self.type})
         return stats
 
@@ -101,11 +102,11 @@ class TransactionStream(DataStream):
 
     def __init__(self, stream_id: str) -> None:
         super().__init__(stream_id)
-        self.type = "Financial Data"
+        self.type: str = "Financial Data"
 
     def process_batch(self, data_batch: List[Any]) -> str:
 
-        filter = self.filter_data(data_batch, "high_tr")
+        filter: List[int] = self.filter_data(data_batch, "high_tr")
         return (
             f"{len(data_batch)} operations, net flow: "
             f"{'+' if filter[0] > 0 else ''}{filter[0]} units"
@@ -120,8 +121,8 @@ class TransactionStream(DataStream):
             )
 
         if criteria == "high_tr":
-            buy = 0
-            sell = 0
+            buy: int = 0
+            sell: int = 0
             for data in data_batch:
                 if isinstance(data, str) is False:
                     raise StreamErrors(
@@ -152,7 +153,7 @@ class TransactionStream(DataStream):
             return [buy - sell]
 
     def get_stats(self) -> Dict[str, Union[str, int, float]]:
-        stats = super().get_stats()
+        stats: Dict[str, Union[str, int, float]] = super().get_stats()
         stats.update({"type": self.type})
         return stats
 
@@ -161,11 +162,11 @@ class EventStream(DataStream):
 
     def __init__(self, stream_id: str) -> None:
         super().__init__(stream_id)
-        self.type = "System Events"
+        self.type: str = "System Events"
 
     def process_batch(self, data_batch: List[Any]) -> str:
 
-        filter = self.filter_data(data_batch, "error")
+        filter: List[int] = self.filter_data(data_batch, "error")
         return f"{len(data_batch)} events, " f"{filter[0]} error detected"
 
     def filter_data(
@@ -180,7 +181,7 @@ class EventStream(DataStream):
             raise StreamErrors("Error: empty data batch")
 
         if criteria == "error":
-            count = 0
+            count: int = 0
             for data in data_batch:
                 if isinstance(data, str) is False:
                     raise StreamErrors(
@@ -191,7 +192,7 @@ class EventStream(DataStream):
             return [count]
 
     def get_stats(self) -> Dict[str, Union[str, int, float]]:
-        stats = super().get_stats()
+        stats: Dict[str, Union[str, int, float]] = super().get_stats()
         stats.update({"type": self.type})
         return stats
 
@@ -200,42 +201,42 @@ if __name__ == "__main__":
     print("=== CODE NEXUS - POLYMORPHIC STREAM SYSTEM ===")
 
     print("\nInitializing Sensor Stream...")
-    sensor = SensorStream("SENSOR_001")
+    sensor: SensorStream = SensorStream("SENSOR_001")
     try:
         print(
             f"Stream ID: {sensor.get_stats().get("stream_id")}, "
             f"Type: {sensor.get_stats().get("type")}"
         )
-        data_batch = ["temp:22.5", "humidity:65", "pressure:1013"]
-        proc = sensor.process_batch(data_batch)
+        data_batch: List[str] = ["temp:22.5", "humidity:65", "pressure:1013"]
+        proc: str = sensor.process_batch(data_batch)
         print(f"Processing sensor batch: [{", ".join(data_batch)}]")
         print(f"Sensor analysis: {proc}")
     except StreamErrors as e:
         print(e)
 
     print("\nInitializing Transaction Stream...")
-    transaction = TransactionStream("TRANS_001")
+    transaction: TransactionStream = TransactionStream("TRANS_001")
     try:
         print(
             f"Stream ID: {transaction.get_stats().get("stream_id")}, "
             f"Type: {transaction.get_stats().get("type")}"
         )
         data_batch = ["buy:100", "sell:150", "buy:75"]
-        proc = transaction.process_batch(data_batch)
+        proc: str = transaction.process_batch(data_batch)
         print(f"Processing transaction batch: [{", ".join(data_batch)}]")
         print(f"Transaction analysis: {proc}")
     except StreamErrors as e:
         print(e)
 
     print("\nInitializing Event Stream...")
-    event = EventStream("EVENT_001")
+    event: EventStream = EventStream("EVENT_001")
     try:
         print(
             f"Stream ID: {event.get_stats().get("stream_id")}, "
             f"Type: {event.get_stats().get("type")}"
         )
         data_batch = ["login", "error", "logout"]
-        proc = event.process_batch(data_batch)
+        proc: str = event.process_batch(data_batch)
         print(f"Processing event batch: [{", ".join(data_batch)}]")
         print(f"Event analysis: {proc}")
     except StreamErrors as e:
@@ -246,8 +247,8 @@ if __name__ == "__main__":
 
     print("Batch 1 Results:")
 
-    stream = StreamProcessor()
-    sensor_data = ["temp:22.5", "humidity:65"]
+    stream: StreamProcessor = StreamProcessor()
+    sensor_data: List[str] = ["temp:22.5", "humidity:65"]
     try:
         print(
             "- Sensor data: "
@@ -256,7 +257,7 @@ if __name__ == "__main__":
     except StreamErrors as e:
         print(e)
 
-    transaction_data = ["buy:100", "sell:150", "buy:75", "sell:20"]
+    transaction_data: List[str] = ["buy:100", "sell:150", "buy:75", "sell:20"]
     try:
         print(
             "- Transaction data: "
@@ -266,7 +267,7 @@ if __name__ == "__main__":
     except StreamErrors as e:
         print(e)
 
-    event_data = ["login", "error", "logout"]
+    event_data: List[str] = ["login", "error", "logout"]
     try:
         print(
             "- Event data: "

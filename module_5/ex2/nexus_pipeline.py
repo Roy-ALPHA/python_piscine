@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-from abc import ABC
-from typing import Any, Protocol
+from abc import ABC, abstractmethod
+from typing import Any, List, Dict, Union, Optional, Protocol
 
 
 class NexusManagerError(Exception):
@@ -44,7 +44,7 @@ class TransformStage:
                     data.update({"range": "Out of range"})
 
             elif data.get("action") is not None:
-                proc_action = list(data.keys()).count("action")
+                proc_action: int = list(data.keys()).count("action")
                 data.update({"actions_proc": proc_action})
 
             elif data.get("count") is not None:
@@ -76,7 +76,7 @@ class TransformStage:
 class OutputStage:
 
     def process(self, data: dict) -> str:
-        dtype = data.get("type")
+        dtype: Optional[str] = data.get("type")
         if dtype == "JSON":
             return (
                 "Processed temperature reading: "
@@ -103,11 +103,12 @@ class OutputStage:
 class ProcessingPipeline(ABC):
 
     def __init__(self) -> None:
-        self.stages = list()
+        self.stages: List[ProcessingStage] = list()
 
     def add_stage(self, stage: ProcessingStage) -> None:
         self.stages.append(stage)
 
+    @abstractmethod
     def process(self, data: Any) -> str:
         for stage in self.stages:
             data = stage.process(data)
@@ -117,7 +118,7 @@ class ProcessingPipeline(ABC):
 class JSONAdapter(ProcessingPipeline):
     def __init__(self, pipeline_id: int) -> None:
         super().__init__()
-        self.pipeline_id = pipeline_id
+        self.pipeline_id: int = pipeline_id
 
     def process(self, data: dict) -> str:
         data.update({"type": "JSON"})
@@ -127,11 +128,11 @@ class JSONAdapter(ProcessingPipeline):
 class CSVAdapter(ProcessingPipeline):
     def __init__(self, pipeline_id: int) -> None:
         super().__init__()
-        self.pipeline_id = pipeline_id
+        self.pipeline_id: int = pipeline_id
 
     def process(self, data: str) -> str:
-        data_splited = data.split(",")
-        trans_data = {elem: elem for elem in data_splited}
+        data_splited: List[str] = data.split(",")
+        trans_data: Dict[str, str] = {elem: elem for elem in data_splited}
         trans_data.update({"type": "CSV"})
         return super().process(trans_data)
 
@@ -139,19 +140,19 @@ class CSVAdapter(ProcessingPipeline):
 class StreamAdapter(ProcessingPipeline):
     def __init__(self, pipeline_id: int) -> None:
         super().__init__()
-        self.pipeline_id = pipeline_id
+        self.pipeline_id: int = pipeline_id
 
     def process(self, data: list) -> str:
-        trans_data = dict()
-        count = len(data)
-        avg = sum(data) / count
+        trans_data: Dict[str, Union[int, float, str]] = dict()
+        count: int = len(data)
+        avg: float = sum(data) / count
         trans_data.update({"count": count, "avg": avg, "type": "stream"})
         return super().process(trans_data)
 
 
 class NexusManager:
     def __init__(self) -> None:
-        self.pipelines = list()
+        self.pipelines: List[ProcessingPipeline] = list()
 
     def add_pipeline(self, pipeline: Any) -> None:
         self.pipelines.append(pipeline)
@@ -167,16 +168,18 @@ if __name__ == "__main__":
     print("Pipeline capacity: 1000 streams/second\n")
 
     print("Creating Data Processing Pipeline...")
-    stages = [InputStage(), TransformStage(), OutputStage()]
+    stages: List[ProcessingStage] = [
+        InputStage(), TransformStage(), OutputStage()
+    ]
     print(
         "Stage 1: Input validation and parsing",
         "Stage 2: Data transformation and enrichment",
         "Stage 3: Output formatting and delivery",
         sep="\n",
     )
-    json = JSONAdapter(42)
-    csv = CSVAdapter(42)
-    stream = StreamAdapter(42)
+    json: JSONAdapter = JSONAdapter(42)
+    csv: CSVAdapter = CSVAdapter(42)
+    stream: StreamAdapter = StreamAdapter(42)
 
     print("\n=== Multi-Format Data Processing ===\n")
 
@@ -185,7 +188,7 @@ if __name__ == "__main__":
     for stage in stages:
         json.add_stage(stage)
 
-    data = {"sensor": "temp", "value": 23.5, "unit": "C"}
+    data: Dict = {"sensor": "temp", "value": 23.5, "unit": "C"}
     print(
         'Input: {"sensor": "temp", "value": 23.5, "unit": "C"}',
         "Transform: Enriched with metadata and validation",
@@ -198,7 +201,7 @@ if __name__ == "__main__":
     for stage in stages:
         csv.add_stage(stage)
 
-    data = "user,action,timestamp"
+    data: str = "user,action,timestamp"
     print(
         f'Input: "{data}"',
         "Transform: Parsed and structured data",
@@ -211,7 +214,7 @@ if __name__ == "__main__":
     for stage in stages:
         stream.add_stage(stage)
 
-    data = [21.8, 22.0, 22.5, 21.9, 22.3]
+    data: List[float] = [21.8, 22.0, 22.5, 21.9, 22.3]
     print(
         "Input: Real-time sensor stream",
         "Transform: Aggregated and filtered",
@@ -221,7 +224,7 @@ if __name__ == "__main__":
 
     print("\n=== Pipeline Chaining Demo ===\n")
 
-    manager = NexusManager()
+    manager: NexusManager = NexusManager()
 
     manager.add_pipeline(json)
     print("Pipeline A", end=" -> ")
@@ -237,7 +240,7 @@ if __name__ == "__main__":
     print("\n=== Error Recovery Test ===\n")
     print("Simulating pipeline failure...")
     try:
-        error_pipeline = JSONAdapter(99)
+        error_pipeline: JSONAdapter = JSONAdapter(99)
         for stage in stages:
             error_pipeline.add_stage(stage)
         error_pipeline.process({"invalid": "data"})

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, List, Dict, Union, Optional  # noqa
 
 
 class ErrorManager(Exception):
@@ -25,13 +25,23 @@ class NumericProcessor(DataProcessor):
 
     def process(self, data: list[int]) -> str:
         if self.validate(data):
-            return (
-                f"Processed {len(data)} numeric values, "
-                f"sum={sum(data)}, avg={sum(data)/len(data):.1f}"
-            )
+            if isinstance(data, int):
+                return (
+                    f"Processed 1 numeric values, "
+                    f"sum={data}, avg={data}"
+                )
+            else:
+                return (
+                    f"Processed {len(data)} numeric values, "
+                    f"sum={sum(data)}, avg={sum(data)/len(data):.1f}"
+                )
 
     def validate(self, data: list[int]) -> bool:
-        if isinstance(data, list) is False:
+
+        if isinstance(data, int):
+            return True
+
+        if not isinstance(data, list):
             raise ErrorManager(
                 "Error: Invalid data type: expected a list of numbers"
             )
@@ -102,37 +112,37 @@ if __name__ == "__main__":
     print("=== CODE NEXUS - DATA PROCESSOR FOUNDATION ===")
 
     print("\nInitializing Numeric Processor...")
-    data = [1, 2, 3, 4, 5]
-    num_obj = NumericProcessor()
+    data: Union[List[int], int] = [1, 2, 3, 4, 5]
+    num_obj: NumericProcessor = NumericProcessor()
     print(f"Processing data: {data}")
     try:
         if num_obj.validate(data):
             print("Validation: Numeric data verified")
-        res = num_obj.process(data)
+        res: str = num_obj.process(data)
         print(num_obj.format_output(res))
     except ErrorManager as e:
         print(e)
 
     print("\nInitializing Text Processor...")
-    data = "Hello Nexus World"
-    text_obj = TextProcessor()
+    data: str = "Hello Nexus World"
+    text_obj: TextProcessor = TextProcessor()
     print(f'Processing data: "{data}"')
     try:
         if text_obj.validate(data):
             print("Validation: Text data verified")
-        res = text_obj.process(data)
+        res: str = text_obj.process(data)
         print(text_obj.format_output(res))
     except ErrorManager as e:
         print(e)
 
     print("\nInitializing Log Processor...")
-    data = "ERROR: Connection timeout"
-    log_obj = LogProcessor()
+    data: str = "ERROR: Connection timeout"
+    log_obj: LogProcessor = LogProcessor()
     print(f'Processing data: "{data}"')
     try:
         if log_obj.validate(data):
             print("Validation: Log entry verified")
-        res = log_obj.process(data)
+        res: str = log_obj.process(data)
         print(log_obj.format_output(res))
     except ErrorManager as e:
         print(e)
@@ -141,22 +151,24 @@ if __name__ == "__main__":
 
     print("Processing multiple data types through same interface...")
 
-    data = [2, 3, 1]
-    try:
-        print(f"Result 1: {num_obj.process(data)}")
-    except ErrorManager as e:
-        print(e)
+    processors: list[DataProcessor] = [
+        num_obj,
+        text_obj,
+        log_obj
+    ]
 
-    data = "Hello World!"
-    try:
-        print(f"Result 2: {text_obj.process(data)}")
-    except ErrorManager as e:
-        print(e)
+    data_items: List[Any] = [
+        [2, 3, 1],
+        "Hello World!",
+        "INFO: System ready"
+    ]
 
-    data = "INFO: System ready"
-    try:
-        print(f"Result 3: {log_obj.process(data)}")
-    except ErrorManager as e:
-        print(e)
+    i: int = 0
+    while i < len(processors):
+        try:
+            print(f"Result {i + 1}: {processors[i].process(data_items[i])}")
+        except ErrorManager as e:
+            print(e)
+        i += 1
 
     print("\nFoundation systems online. Nexus ready for advanced streams.")
