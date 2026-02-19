@@ -44,7 +44,7 @@ class TransformStage:
                     data.update({"range": "Out of range"})
 
             elif data.get("action") is not None:
-                proc_action: int = list(data.keys()).count("action")
+                proc_action: int = 1
                 data.update({"actions_proc": proc_action})
 
             elif data.get("count") is not None:
@@ -145,7 +145,7 @@ class StreamAdapter(ProcessingPipeline):
     def process(self, data: list) -> str:
         trans_data: Dict[str, Union[int, float, str]] = dict()
         count: int = len(data)
-        avg: float = sum(data) / count
+        avg: float = sum(data) / count if count != 0 else data[0]
         trans_data.update({"count": count, "avg": avg, "type": "stream"})
         return super().process(trans_data)
 
@@ -154,7 +154,7 @@ class NexusManager:
     def __init__(self) -> None:
         self.pipelines: List[ProcessingPipeline] = list()
 
-    def add_pipeline(self, pipeline: Any) -> None:
+    def add_pipeline(self, pipeline: ProcessingPipeline) -> None:
         self.pipelines.append(pipeline)
 
     def process_data(self, data: Any) -> list[str]:
@@ -196,7 +196,7 @@ if __name__ == "__main__":
         sep="\n",
     )
 
-    print("\nProcessing CSV data through same pipeline...\n")
+    print("\nProcessing CSV data through same pipeline...")
 
     for stage in stages:
         csv.add_stage(stage)
@@ -234,10 +234,10 @@ if __name__ == "__main__":
     print("Pipeline C")
 
     print("Data flow: Raw -> Processed -> Analyzed -> Stored")
-    print("Chain result: 100 records processed through 3-stage pipeline")
+    print("\nChain result: 100 records processed through 3-stage pipeline")
     print("Performance: 95% efficiency, 0.2s total processing time")
 
-    print("\n=== Error Recovery Test ===\n")
+    print("\n=== Error Recovery Test ===")
     print("Simulating pipeline failure...")
     try:
         error_pipeline: JSONAdapter = JSONAdapter(99)
