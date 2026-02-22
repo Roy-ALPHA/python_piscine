@@ -6,6 +6,19 @@ from .ArtifactCard import ArtifactCard
 
 
 def main():
+    game_state = {
+        "player": {
+            "health": 20,
+            "mana": 60,
+            "battlefield": [],
+        },
+        "enemy": {
+            "health": 18,
+            "mana": 4,
+            "battlefield": [],
+        }
+    }
+
     print("\n=== DataDeck Deck Builder ===\n")
     print("Building deck with different card types...")
 
@@ -15,13 +28,23 @@ def main():
         'Mana Crystal', 2, Rarity.EPIC, 4, EffectTypeForPlayer.BUFF
     )
 
-    cards = [spell, creature, artifact]
+    cards = [spell, artifact, creature]
 
     deck = Deck()
     for card in cards:
         deck.add_card(card)
 
     print(f"Deck stats: {deck.get_card_info()}")
+
+    print("\nDrawing and playing cards:\n")
+
+    while deck.cards:
+        card = deck.draw_card()
+        print(f"Drew: {card.name} ({card})")
+        print(f"Play result: {card.play(game_state)}\n")
+
+    print("Polymorphism in action: Same interface, different card behaviors!")
+
 
 if __name__ == "__main__":
     main()

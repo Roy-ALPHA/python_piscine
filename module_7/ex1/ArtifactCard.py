@@ -21,7 +21,7 @@ class ArtifactCard(Card):
             return {
                 'card_played': self.name,
                 'mana_used': self.cost,
-                'effect': self.effect
+                'effect': self.effect.value
             }
         else:
             raise CardsError
@@ -42,3 +42,6 @@ class ArtifactCard(Card):
             "effect": self.effect
         })
         return infos
+
+    def __str__(self):
+        return "Artifact"

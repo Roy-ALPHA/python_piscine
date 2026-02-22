@@ -51,3 +51,6 @@ class CreatureCard(Card):
             'health': self.health
         })
         return infos
+
+    def __str__(self):
+        return "Creature"

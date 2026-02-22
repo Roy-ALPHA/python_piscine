@@ -16,15 +16,6 @@ class SpellCard(Card):
 
             game_state["player"]["mana"] -= self.cost
 
-            if self.effect_type == EffectType.DAMGAE:
-                game_state["enemy"]["health"] -= 3
-            elif self.effect_type == EffectType.HEAL:
-                game_state["player"]["health"] += 3
-            elif self.effect_type == EffectType.DEBUFF:
-                game_state["enemy"]["defence"] -= 3
-            elif self.effect_type == EffectType.BUFF:
-                game_state["player"]["defence"] += 3
-
             return {
                 'card_played': self.name,
                 'mana_used': self.cost,
@@ -59,3 +50,6 @@ class SpellCard(Card):
             "effect_type": self.effect_type.value
         })
         return infos
+
+    def __str__(self):
+        return "Spell"
