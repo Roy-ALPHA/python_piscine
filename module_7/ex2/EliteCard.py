@@ -9,8 +9,8 @@ class EliteCard(Card, Combatable, Magical):
         super().__init__(name, cost, rarity)
         self.health = health
         self._mana = 8
-        self._defense = 3
-        self._attack = 5
+        self.defense = 3
+        self.attack = 5
 
     def play(self, game_state: dict) -> dict:
         if super().is_playable(game_state["player"]["mana"]):
@@ -42,7 +42,7 @@ class EliteCard(Card, Combatable, Magical):
             raise CardsError
 
         for t in valid_targets:
-            t.defend(self._attack)
+            t.defend(self.attack)
 
         self._mana -= mana_used
 
@@ -70,32 +70,32 @@ class EliteCard(Card, Combatable, Magical):
 
     def attack(self, target) -> dict:
         if isinstance(target, Combatable):
-            target.defend(self._attack)
+            target.defend(self.attack)
             return {
                 'attacker': self.name,
                 'target': target.name,
-                'damage': self._attack,
+                'damage': self.attack,
                 'combat_type': 'melee'
             }
         else:
             raise CardsError
 
     def defend(self, incoming_damage: int) -> dict:
-        damage = max(0, incoming_damage - self._defense)
+        damage = max(0, incoming_damage - self.defense)
         self.health -= damage
 
         return {
             'defender': self.name,
             'damage_taken': damage,
-            'damage_blocked': self._defense,
+            'damage_blocked': self.defense,
             'still_alive': self.health > 0
         }
 
     def get_combat_stats(self) -> dict:
         infos = super().get_card_info()
         infos.update({
-            "attack": self._attack,
-            "defense": self._defense
+            "attack": self.attack,
+            "defense": self.defense
         })
         return infos
 
