@@ -22,10 +22,10 @@ def main():
     print("\n=== DataDeck Deck Builder ===\n")
     print("Building deck with different card types...")
 
-    spell = SpellCard('Lightning Bolt', 3, Rarity.EPIC, EffectType.DAMGAE)
+    spell = SpellCard('Lightning Bolt', 3, Rarity.UNCOMMON, EffectType.DAMGAE)
     creature = CreatureCard('Fire Dragon', 5, Rarity.LEGENDARY, 7, 10)
     artifact = ArtifactCard(
-        'Mana Crystal', 2, Rarity.EPIC, 4, EffectTypeForPlayer.BUFF
+        'Mana Crystal', 2, Rarity.UNCOMMON, 4, EffectTypeForPlayer.BUFF
     )
 
     cards = [spell, artifact, creature]

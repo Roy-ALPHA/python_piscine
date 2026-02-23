@@ -31,8 +31,6 @@ class SpellCard(Card):
                     target.health -= 3
                 elif self.effect_type == EffectType.HEAL:
                     target.health += 3
-                elif self.effect_type == EffectType.DEBUFF:
-                    target.attack -= 3
                 elif self.effect_type == EffectType.BUFF:
                     target.attack += 3
 
