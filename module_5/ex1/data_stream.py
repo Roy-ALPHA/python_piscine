@@ -221,7 +221,7 @@ if __name__ == "__main__":
             f"Stream ID: {transaction.get_stats().get("stream_id")}, "
             f"Type: {transaction.get_stats().get("type")}"
         )
-        data_batch = ["buy:100", "sell:150", "buy:75"]
+        data_batch = ["buy: ec", "sell 150", "buy 75"]
         proc: str = transaction.process_batch(data_batch)
         print(f"Processing transaction batch: [{", ".join(data_batch)}]")
         print(f"Transaction analysis: {proc}")

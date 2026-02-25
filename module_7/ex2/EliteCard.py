@@ -77,8 +77,6 @@ class EliteCard(Card, Combatable, Magical):
                 'damage': self.attack,
                 'combat_type': 'melee'
             }
-        else:
-            raise CardsError
 
     def defend(self, incoming_damage: int) -> dict:
         damage = max(0, incoming_damage - self.defense)

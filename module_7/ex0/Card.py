@@ -14,7 +14,7 @@ class Rarity(Enum):
 
 
 class EffectType(Enum):
-    DAMGAE = 'Deal 3 damage to target'
+    DAMAGE = 'Deal 3 damage to target'
     HEAL = "Restore 3 health to target"
     BUFF = "Increase target's attack by 3"
     DEBUFF = "Decrease target's attack by 3"

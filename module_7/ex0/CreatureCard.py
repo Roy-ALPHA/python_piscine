@@ -40,8 +40,6 @@ class CreatureCard(Card):
                 'damage_dealt': self.attack,
                 'combat_resolved': True
             }
-        else:
-            raise CardsError
 
     def get_card_info(self) -> dict:
         infos = super().get_card_info()

@@ -1,9 +1,10 @@
-from ex0.Card import Card, Rarity, CardsError
+from ex0.Card import Card, Rarity, CardsError, EffectTypeForPlayer
 
 
 class ArtifactCard(Card):
     def __init__(
-       self, name: str, cost: int, rarity: Rarity, durability: int, effect: str
+       self, name: str, cost: int, rarity: Rarity,
+       durability: int, effect: EffectTypeForPlayer
     ) -> None:
         super().__init__(name, cost, rarity)
         self.durability = durability
