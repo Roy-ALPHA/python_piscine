@@ -1,5 +1,5 @@
 from .TournamentCard import TournamentCard
-from .ex0.Card import CardsError
+from ex0.Card import CardsError
 
 
 class TournamentPlatform():
@@ -79,7 +79,7 @@ class TournamentPlatform():
         if self.tr_cards:
             avg_rating = sum(c.calculate_rating()
                              for c in self.tr_cards.values())
-            avg_rating /= len(self.tr_cards)
+            avg_rating //= len(self.tr_cards)
         else:
             avg_rating = 0
         return {
