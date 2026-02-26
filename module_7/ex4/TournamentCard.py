@@ -31,11 +31,12 @@ class TournamentCard(Card, Combatable, Rankable):
 
     def attack(self, target) -> dict:
         if isinstance(target, Combatable):
-            target.defend(self.attack_power)
+            still_alive = target.defend(self.attack_power)['still_alive']
             return {
                 'attacker': self.name,
                 'target': target.name,
                 'damage': self.attack_power,
+                'still_alive': still_alive,
                 'combat_type': 'melee'
             }
 
