@@ -9,6 +9,11 @@ class TournamentCard(Card, Combatable, Rankable):
         self, name: str, cost: int, rarity: Rarity,
         attack: int, health: int, rating: int
     ) -> None:
+        if attack < 0 or health < 0 or cost < 0 or rating < 0:
+            raise CardsError(
+                "Invalid card: attack, health, cost, "
+                "and rating must be positive"
+            )
         super().__init__(name, cost, rarity)
         self.attack_power = attack
         self.health = health
@@ -29,7 +34,7 @@ class TournamentCard(Card, Combatable, Rankable):
                 'rarity': self.rarity
             }
         else:
-            raise CardsError
+            raise CardsError("Not enough mana to play this tournament card")
 
     def attack(self, target) -> dict:
         if isinstance(target, Combatable):
@@ -65,9 +70,13 @@ class TournamentCard(Card, Combatable, Rankable):
         return self.rating + (self.wins * 16) - (self.losses * 16)
 
     def update_wins(self, wins: int) -> None:
+        if wins < 0:
+            raise CardsError("Invalid wins: must be positive")
         self.wins += wins
 
     def update_losses(self, losses: int) -> None:
+        if losses < 0:
+            raise CardsError("Invalid losses: must be positive")
         self.losses += losses
 
     def get_rank_info(self) -> dict:

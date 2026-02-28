@@ -17,7 +17,7 @@ class ArtifactCard(Card):
                 game_state["player"]["mana"] -= self.cost
                 game_state["player"]["battlefield"].append(self)
             except KeyError:
-                raise CardsError
+                raise CardsError("Invalid game state: missing player data")
 
             return {
                 'card_played': self.name,
@@ -25,7 +25,7 @@ class ArtifactCard(Card):
                 'effect': self.effect.value
             }
         else:
-            raise CardsError
+            raise CardsError("Not enough mana to play this artifact")
 
     def activate_ability(self) -> dict:
         self.durability -= 1

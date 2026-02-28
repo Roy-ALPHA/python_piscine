@@ -2,6 +2,7 @@ from .GameStrategy import GameStrategy
 from .CardFactory import CardFactory
 from ex1.ArtifactCard import ArtifactCard
 from ex1.SpellCard import SpellCard
+from ex0.Card import CardsError
 
 
 class GameEngine():
@@ -18,6 +19,13 @@ class GameEngine():
     def configure_engine(
         self, factory: CardFactory, strategy: GameStrategy
     ) -> None:
+        if not isinstance(factory, CardFactory):
+            raise CardsError("Invalid factory: must be a CardFactory instance")
+        if not isinstance(strategy, GameStrategy):
+            raise CardsError(
+                "Invalid strategy: must be a GameStrategy instance"
+            )
+
         self.__factory = factory
         self.__strategy = strategy
         self.player1 = factory.create_themed_deck(0)["deck"]

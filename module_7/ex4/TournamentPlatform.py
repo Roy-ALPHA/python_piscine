@@ -10,7 +10,7 @@ class TournamentPlatform():
 
     def register_card(self, card: TournamentCard) -> str:
         if not isinstance(card, TournamentCard):
-            raise CardsError
+            raise CardsError("Invalid card: must be a TournamentCard instance")
 
         id_name = card.name.split()
         counter = 1
@@ -30,7 +30,7 @@ class TournamentPlatform():
         card1 = self.tr_cards.get(card1_id)
         card2 = self.tr_cards.get(card2_id)
         if not card1 or not card2 or card1 == card2:
-            raise CardsError
+            raise CardsError("Invalid match: cards not found or same card")
 
         rounds = 0
         winner = None

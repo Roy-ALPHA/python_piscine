@@ -8,7 +8,9 @@ class CreatureCard(Card):
     ) -> None:
 
         if attack < 0 or health < 0 or cost < 0:
-            raise CardsError
+            raise CardsError(
+                "Invalid card: attack, health, and cost must be positive"
+            )
 
         super().__init__(name, cost, rarity)
         self.attack = attack
@@ -21,7 +23,7 @@ class CreatureCard(Card):
                 game_state["player"]["mana"] -= self.cost
                 game_state["player"]["battlefield"].append(self)
             except KeyError:
-                raise CardsError
+                raise CardsError("Invalid game state: missing player data")
 
             return {
                 'card_played': self.name,
@@ -29,7 +31,7 @@ class CreatureCard(Card):
                 'effect': 'Creature summoned to battlefield'
             }
         else:
-            raise CardsError
+            raise CardsError("Not enough mana to play this card")
 
     def attack_target(self, target) -> dict:
         if isinstance(target, CreatureCard):

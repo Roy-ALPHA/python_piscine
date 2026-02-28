@@ -1,5 +1,5 @@
 from .CreatureCard import CreatureCard
-from .Card import Rarity
+from .Card import Rarity, CardsError
 
 
 def main():
@@ -33,17 +33,20 @@ def main():
 
     print(
         f"\nPlaying {fire_dragon.name} with "
-        f"{game_state["player"]["mana"]} mana available:"
+        f"{game_state['player']['mana']} mana available:"
     )
-    print(f"Playable: {fire_dragon.is_playable(game_state["player"]["mana"])}")
-    print(f"Play result: {fire_dragon.play(game_state)}")
+    print(f"Playable: {fire_dragon.is_playable(game_state['player']['mana'])}")
+    try:
+        print(f"Play result: {fire_dragon.play(game_state)}")
+    except CardsError as e:
+        print(e)
 
     print(f"\n{fire_dragon.name} attacks {goblin_warrior.name}:")
     print(f"Attack result: {fire_dragon.attack_target(goblin_warrior)}")
 
     print("\nTesting insufficient mana (3 available):")
     print(
-        f"Playable: {fire_dragon.is_playable(game_state["player"]["mana"])}\n"
+        f"Playable: {fire_dragon.is_playable(game_state['player']['mana'])}\n"
     )
 
     print("Abstract pattern successfully demonstrated!")

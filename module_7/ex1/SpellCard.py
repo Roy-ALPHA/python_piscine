@@ -22,7 +22,7 @@ class SpellCard(Card):
                 'effect': self.effect_type.value
             }
         else:
-            raise CardsError
+            raise CardsError("Not enough mana to cast this spell")
 
     def resolve_effect(self, targets: list) -> dict:
         for target in targets:

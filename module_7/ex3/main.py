@@ -1,7 +1,7 @@
 from .AggressiveStrategy import AggressiveStrategy
 from .GameEngine import GameEngine
 from .FantasyCardFactory import FantasyCardFactory
-from ex0.Card import EffectType
+from ex0.Card import EffectType, CardsError
 
 
 def main():
@@ -18,19 +18,26 @@ def main():
 
     print("\nSimulating aggressive turn...")
     engine = GameEngine()
-    engine.configure_engine(factory, strategy)
+    try:
+        engine.configure_engine(factory, strategy)
+    except CardsError as e:
+        print(f"Engine configuration failed: {e}")
+        return
 
-    engine.player1.add_card(factory.create_creature("Fire Dragon"))
-    engine.player1.add_card(factory.create_creature("Goblin Warrior"))
-    engine.player1.add_card(factory.create_spell("Lightning Bolt"))
+    try:
+        engine.player1.add_card(factory.create_creature("Fire Dragon"))
+        engine.player1.add_card(factory.create_creature("Goblin Warrior"))
+        engine.player1.add_card(factory.create_spell("Lightning Bolt"))
 
-    engine.player2.add_card(factory.create_creature("Enemy Player"))
+        engine.player2.add_card(factory.create_creature("Enemy Player"))
+    except CardsError as e:
+        print(f"Error adding card: {e}")
 
     engine.player1.cards[1].cost -= 3
     engine.player1.cards[2].effect_type = EffectType.DAMAGE
 
     print(
-        "Hnad: "
+        "Hand: "
         f"[{engine.player1.cards[0].name} ({engine.player1.cards[0].cost}), "
         f"{engine.player1.cards[1].name} ({engine.player1.cards[1].cost}), "
         f"{engine.player1.cards[2].name} ({engine.player1.cards[2].cost})]"
@@ -38,7 +45,10 @@ def main():
 
     print("\nTurn execution:")
     print(f"Strategy: {strategy.get_strategy_name()}")
-    print(f"Actions: {engine.simulate_turn()}")
+    try:
+        print(f"Actions: {engine.simulate_turn()}")
+    except CardsError as e:
+        print(f"Turn simulation failed: {e}")
 
     print("\nGame Report:")
     print(engine.get_engine_status())

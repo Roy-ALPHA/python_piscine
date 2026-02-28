@@ -1,4 +1,4 @@
-from ex0.Card import Card, Rarity
+from ex0.Card import Card, Rarity, CardsError
 from .Combatable import Combatable
 from .Magical import Magical
 from .EliteCard import EliteCard
@@ -38,22 +38,28 @@ def main():
 
     print(f"\nPlaying {arcane.name} ({arcane}):\n")
 
-    print(
-        "Combat phase:",
-        f"Attack result: {arcane.attack(target)}",
-        f"Defense result: {arcane.defend(5)}\n",
-        sep="\n"
-    )
+    try:
+        print(
+            "Combat phase:",
+            f"Attack result: {arcane.attack(target)}",
+            f"Defense result: {arcane.defend(5)}\n",
+            sep="\n"
+        )
+    except CardsError as e:
+        print(f"Combat failed: {e}")
 
     target1 = EliteCard("Enemy1", 10, Rarity.LEGENDARY, 20)
     target2 = EliteCard("Enemy2", 10, Rarity.LEGENDARY, 20)
 
-    print(
-        "Magic phase:",
-        f"Spell cast: {arcane.cast_spell('Fireball', [target1, target2])}",
-        f"Mana channel: {arcane.channel_mana(3)}\n",
-        sep="\n"
-    )
+    try:
+        print(
+            "Magic phase:",
+            f"Spell cast: {arcane.cast_spell('Fireball', [target1, target2])}",
+            f"Mana channel: {arcane.channel_mana(3)}\n",
+            sep="\n"
+        )
+    except CardsError as e:
+        print(f"Magic failed: {e}")
 
     print("\nMultiple interface implementation successful!")
 

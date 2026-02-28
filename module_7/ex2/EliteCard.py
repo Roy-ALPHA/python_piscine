@@ -10,7 +10,7 @@ class EliteCard(Card, Combatable, Magical):
         self.health = health
         self._mana = 8
         self.defense = 3
-        self.attack = 5
+        self.attack_power = 5
 
     def play(self, game_state: dict) -> dict:
         if super().is_playable(game_state["player"]["mana"]):
@@ -24,7 +24,7 @@ class EliteCard(Card, Combatable, Magical):
                 'effect': 'elite'
             }
         else:
-            raise CardsError
+            raise CardsError("Not enough mana to play this elite card")
 
     def cast_spell(self, spell_name: str, targets: list) -> dict:
 
@@ -34,15 +34,15 @@ class EliteCard(Card, Combatable, Magical):
         ]
 
         if not valid_targets:
-            raise CardsError
+            raise CardsError("No valid targets for spell")
 
         mana_used = len(valid_targets) * 2
 
         if mana_used > self._mana:
-            raise CardsError
+            raise CardsError("Not enough mana to cast spell")
 
         for t in valid_targets:
-            t.defend(self.attack)
+            t.defend(self.attack_power)
 
         self._mana -= mana_used
 
@@ -70,11 +70,11 @@ class EliteCard(Card, Combatable, Magical):
 
     def attack(self, target) -> dict:
         if isinstance(target, Combatable):
-            target.defend(self.attack)
+            target.defend(self.attack_power)
             return {
                 'attacker': self.name,
                 'target': target.name,
-                'damage': self.attack,
+                'damage': self.attack_power,
                 'combat_type': 'melee'
             }
 
@@ -92,7 +92,7 @@ class EliteCard(Card, Combatable, Magical):
     def get_combat_stats(self) -> dict:
         infos = super().get_card_info()
         infos.update({
-            "attack": self.attack,
+            "attack": self.attack_power,
             "defense": self.defense
         })
         return infos

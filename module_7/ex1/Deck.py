@@ -14,7 +14,7 @@ class Deck:
         if isinstance(card, Card):
             self.cards.append(card)
         else:
-            raise CardsError
+            raise CardsError("Invalid card: must be a Card instance")
 
     def remove_card(self, card_name: str) -> bool:
         for card in self.cards:
@@ -30,9 +30,9 @@ class Deck:
         if self.cards:
             return self.cards.pop(0)
         else:
-            raise CardsError
+            raise CardsError("Cannot draw: deck is empty")
 
-    def get_card_info(self) -> dict:
+    def get_deck_stats(self) -> dict:
         total_cost = 0
         creatures = 0
         spells = 0
