@@ -42,12 +42,12 @@ class SpellCard(Card):
             "effect": self.effect_type.value
         }
 
-    def get_card_info(self):
+    def get_card_info(self) -> dict:
         infos = super().get_card_info()
         infos.update({
             "effect_type": self.effect_type.value
         })
         return infos
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "Spell"

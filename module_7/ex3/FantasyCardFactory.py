@@ -96,5 +96,5 @@ class FantasyCardFactory(CardFactory):
                 "artifacts": self.__artifacts
             }
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "FantasyCardFactory"

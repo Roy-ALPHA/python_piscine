@@ -44,5 +44,5 @@ class ArtifactCard(Card):
         })
         return infos
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "Artifact"

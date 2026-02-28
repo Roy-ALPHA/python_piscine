@@ -8,7 +8,7 @@ from ex0.Card import CardsError
 class GameEngine():
 
     @staticmethod
-    def update_cards(cards):
+    def update_cards(cards: list) -> None:
         for card in cards:
             if isinstance(card, SpellCard):
                 cards.remove(card)

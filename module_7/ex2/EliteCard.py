@@ -97,5 +97,5 @@ class EliteCard(Card, Combatable, Magical):
         })
         return infos
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "Elite Card"
