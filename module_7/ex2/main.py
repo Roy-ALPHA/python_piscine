@@ -61,7 +61,7 @@ def main():
     except CardsError as e:
         print(f"Magic failed: {e}")
 
-    print("\nMultiple interface implementation successful!")
+    print("Multiple interface implementation successful!")
 
 
 if __name__ == "__main__":
