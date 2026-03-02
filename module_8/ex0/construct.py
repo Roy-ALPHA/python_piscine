@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys
 import os
+import site
 
 
 if sys.prefix == sys.base_prefix:
@@ -23,4 +24,17 @@ if sys.prefix == sys.base_prefix:
         "Then run this program again.", sep="\n"
     )
 else:
-    print("# Should detect virtual environment and show details")
+    print(
+        "\nMATRIX STATUS: Welcome to the construct\n",
+
+        f"Current Python: {sys.executable}",
+        f"Virtual Environment: {os.environ['VIRTUAL_ENV_PROMPT']}",
+        f"Environment Path: {sys.prefix}\n",
+
+        "SUCCESS: You're in an isolated environment!",
+        "Safe to install packages without affecting",
+        "the global system.\n",
+
+        "Package installation path:",
+        f"{"".join(site.getsitepackages())}", sep="\n"
+    )
