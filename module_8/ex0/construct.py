@@ -60,9 +60,6 @@ else:
         "Safe to install packages without affecting",
         "the global system.\n",
 
-        '''site.getsitepackages() returns list of
-        paths where packages are installed'''
-
         "Package installation path:",
         f"{"".join(site.getsitepackages())}", sep="\n"
     )
