@@ -44,7 +44,6 @@ class SpaceMission(BaseModel):
             c for c in self.crew if c.years_experience >= 5
         ]
         exp = len(experienced) / len(self.crew) * 100 < 50
-        print(experienced)
         if self.duration_days > 365 and exp:
             raise ValueError(
                 "Long missions require at least 50% experienced crew"
@@ -104,7 +103,7 @@ def main() -> None:
         f"Duration: {mission.duration_days} days",
         f"Budget: ${mission.budget_millions}M",
         f"Crew size: {len(mission.crew)}",
-        "Crew members: ", sep="\n"
+        "Crew members:", sep="\n"
     )
 
     for c in mission.crew:
