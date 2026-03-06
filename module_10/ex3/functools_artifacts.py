@@ -29,3 +29,15 @@ def memoized_fibonacci(n: int) -> int:
 @singledispatch
 def spell_dispatcher() -> callable:
     pass 
+
+@spell_dispatcher.register
+def spell_enchant(spell: str) -> str:
+    return f"{spell} enchanted"
+
+@spell_dispatcher.register
+def damage_spell(dmg: int) -> str:
+    return f"Spell take {dmg} damage"
+
+@spell_dispatcher.register
+def mult_cast(spells: list) -> str:
+    return f'{", ".join(spells)} cast hes spells'
