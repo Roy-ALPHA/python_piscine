@@ -19,10 +19,10 @@ def spell_sequence(spells: list[callable]) -> callable:
 
 def main() -> None:
 
-    def spell1(target) -> str:
+    def spell1(target: str) -> str:
         return f"Fireball hits {target}"
 
-    def spell2(target) -> str:
+    def spell2(target: str) -> str:
         return f"Heals {target}"
 
     print("\nTesting spell combiner...")

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from functools import reduce, partial, lru_cache, singledispatch
 import operator
+from typing import Any
 
 
 def spell_reducer(spells: list[int], operation: str) -> int:
@@ -30,7 +31,7 @@ def memoized_fibonacci(n: int) -> int:
 
 
 @singledispatch
-def spell_dispatcher(spell):
+def spell_dispatcher(spell: Any) -> str:
     return "Unknown spell type"
 
 

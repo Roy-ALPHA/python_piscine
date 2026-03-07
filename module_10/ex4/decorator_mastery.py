@@ -6,7 +6,7 @@ from time import time, sleep
 def spell_timer(func: callable) -> callable:
 
     @wraps(func)
-    def wrapper(*args):
+    def wrapper(*args) -> any:
         print(f"Casting {func.__name__}...")
 
         start = time()
@@ -26,7 +26,7 @@ def power_validator(min_power: int) -> callable:
 
     def dec(func: callable) -> callable:
         @wraps(func)
-        def wrapper(*args):
+        def wrapper(*args) -> any:
             if args[-1] >= min_power:
                 return func(*args)
             else:
@@ -42,7 +42,7 @@ def retry_spell(max_attempts: int) -> callable:
 
     def dec(func: callable) -> callable:
         @wraps(func)
-        def wrapper(*args):
+        def wrapper(*args) -> any:
 
             n = 1
             while n <= max_attempts:
