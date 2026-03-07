@@ -21,7 +21,7 @@ def mage_stats(mages: list[dict]) -> dict:
 
     max_power = max(mages, key=lambda mage: mage["power"])
     min_power = min(mages, key=lambda mage: mage["power"])
-    avg_power = sum(map(lambda m: m["power"], mages)) / len(mages)
+    avg_power = round(sum(map(lambda m: m["power"], mages)) / len(mages), 2)
     return {
         "max_power": max_power["power"],
         "min_power": min_power["power"],
@@ -40,8 +40,8 @@ def main() -> None:
     }
     power_sort = artifact_sorter([crystal, fire])
     print(
-        f"{power_sort[0]["name"]} ({power_sort[0]["power"]} power) comes"
-        f" before {power_sort[1]["name"]} ({power_sort[1]["power"]} power)"
+        f'{power_sort[0]["name"]} ({power_sort[0]["power"]} power) comes'
+        f' before {power_sort[1]["name"]} ({power_sort[1]["power"]} power)'
     )
 
     print("\nTesting spell transformer...")

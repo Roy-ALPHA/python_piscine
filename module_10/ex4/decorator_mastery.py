@@ -7,7 +7,7 @@ def spell_timer(func: callable) -> callable:
     
     @wraps(func)
     def wrapper(*args):
-        print(f"Casting {func.__name__}..")
+        print(f"Casting {func.__name__}...")
 
         start = time()
 
@@ -83,3 +83,23 @@ class MageGuild:
             return "Invalid spell name"
 
 
+def main() -> None:
+    print("\nTesting spell timer...")
+
+    @spell_timer
+    def fireball() -> str:
+        sleep(0.101)
+        return f"Result: {fireball.__name__.capitalize()} cast!"
+
+    print(fireball())
+
+    print("\nTesting MageGuild...")
+    mage = MageGuild()
+
+    print(MageGuild.validate_mage_name("Fireball"))
+    print(MageGuild.validate_mage_name("Fire\tball"))
+    print(mage.cast_spell("Lightning", 15))
+    print(mage.cast_spell("hello", 3))
+
+if __name__ == "__main__":
+    main()

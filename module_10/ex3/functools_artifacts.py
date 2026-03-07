@@ -13,6 +13,7 @@ def spell_reducer(spells: list[int], operation: str) -> int:
     elif operation == "min":
         return reduce(lambda x, y: min(x, y), spells)
 
+
 def partial_enchanter(base_enchantment: callable) -> dict[str, callable]:
     return {
         "fire_enchant": partial(base_enchantment, 50, "fire_enchant"),
@@ -20,24 +21,50 @@ def partial_enchanter(base_enchantment: callable) -> dict[str, callable]:
         "lightning_enchant": partial(base_enchantment, 50, "lightning_enchant")
     }
 
+
 @lru_cache
 def memoized_fibonacci(n: int) -> int:
     if n < 2:
         return n
     return memoized_fibonacci(n-1) + memoized_fibonacci(n-2)
 
-@singledispatch
-def spell_dispatcher() -> callable:
-    pass 
 
-@spell_dispatcher.register
-def spell_enchant(spell: str) -> str:
+@singledispatch
+def spell_dispatcher(spell):
+    return "Unknown spell type"
+
+
+@spell_dispatcher.register(str)
+def _(spell: str) -> str:
     return f"{spell} enchanted"
 
-@spell_dispatcher.register
-def damage_spell(dmg: int) -> str:
-    return f"Spell take {dmg} damage"
 
-@spell_dispatcher.register
-def mult_cast(spells: list) -> str:
-    return f'{", ".join(spells)} cast hes spells'
+@spell_dispatcher.register(int)
+def _(dmg: int) -> str:
+    return f"Spell deals {dmg} damage"
+
+
+@spell_dispatcher.register(list)
+def _(spells: list) -> str:
+    return f'{", ".join(spells)} cast together'
+
+
+def main() -> None:
+    print("\nTesting spell reducer...")
+    spells = [20, 30, 10, 40]
+    print(
+        f"Sum: {spell_reducer(spells, "add")}",
+        f"Product: {spell_reducer(spells, "multiply")}",
+        f"Max: {spell_reducer(spells, "max")}", sep='\n'
+    )
+
+    print("\nTesting memoized fibonacci...")
+    print(
+        f"Fib(10): {memoized_fibonacci(10)}",
+        f"Fib(15): {memoized_fibonacci(15)}",
+        sep='\n'
+    )
+
+
+if __name__ == "__main__":
+    main()
