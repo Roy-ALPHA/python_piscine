@@ -4,7 +4,7 @@ from time import time, sleep
 
 
 def spell_timer(func: callable) -> callable:
-    
+
     @wraps(func)
     def wrapper(*args):
         print(f"Casting {func.__name__}...")
@@ -18,12 +18,12 @@ def spell_timer(func: callable) -> callable:
         print(f"Spell completed in {(end - start):.3f} seconds")
 
         return result
-    
+
     return wrapper
 
 
 def power_validator(min_power: int) -> callable:
-    
+
     def dec(func: callable) -> callable:
         @wraps(func)
         def wrapper(*args):
@@ -39,7 +39,7 @@ def retry_spell(max_attempts: int) -> callable:
 
     if max_attempts <= 0:
         return "max_attempts must be positive integer > 0"
-    
+
     def dec(func: callable) -> callable:
         @wraps(func)
         def wrapper(*args):
@@ -49,13 +49,19 @@ def retry_spell(max_attempts: int) -> callable:
                 try:
                     res = func(*args)
                 except Exception:
-                    print(f"Spell failed, retrying... (attempt {n}/{max_attempts})")
+                    print(
+                        f"Spell failed, retrying... "
+                        f"(attempt {n}/{max_attempts})"
+                    )
 
                     if n == max_attempts:
-                        return f'Spell casting failed after {max_attempts} attempts'
+                        return (
+                            "Spell casting failed after "
+                            f"{max_attempts} attempts"
+                        )
                 else:
                     return res
-                
+
                 n += 1
 
         return wrapper
@@ -100,6 +106,7 @@ def main() -> None:
     print(MageGuild.validate_mage_name("Fire\tball"))
     print(mage.cast_spell("Lightning", 15))
     print(mage.cast_spell("hello", 3))
+
 
 if __name__ == "__main__":
     main()
