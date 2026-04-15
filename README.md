@@ -1,80 +1,103 @@
-# Project Overview
+# Python Piscine
 
-This repository is part of the Python 'piscine' training program. It aims to teach fundamental programming concepts through a series of exercises in Python.
+A hands-on Python training repository organized as progressive modules (`module_0` → `module_10`).
+Each module focuses on a core topic (fundamentals, OOP, exceptions, streams, packaging, validation, and functional patterns) through small standalone exercises.
 
-# Setup Instructions
+## Repository Layout
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Roy-ALPHA/python_piscine.git
-   cd python_piscine
-   ```
-2. Ensure you have Python installed (version X.Y recommended).
-3. Create a virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-   ```
-4. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-# Usage Examples
-
-Below are some usage examples. Customize according to your specific project needs:
-```bash
-python main.py  # Replace with your script name
-```
-
-# Repository Structure
-
-```plaintext
+```text
 python_piscine/
-│
-├── exercise_01/
-├── exercise_02/
-├── main.py  # Entry point to your application
-├── requirements.txt  # Dependencies used
+├── module_0/   # Python basics (variables, functions, loops, recursion)
+├── module_1/   # Functions, factory patterns, basic analytics
+├── module_2/   # Error handling and custom exceptions
+├── module_3/   # CLI args, tuples, collections, stream-style processing
+├── module_4/   # File I/O and resource management
+├── module_5/   # Abstraction, protocols, adapters, processing pipelines
+├── module_6/   # Imports, packages, circular imports, module paths
+├── module_7/   # OOP design patterns in a card-game domain
+├── module_8/   # Environments, dependency loading, dotenv config
+├── module_9/   # Data validation with Pydantic models
+├── module_10/  # Lambda, higher-order functions, functools, decorators
 └── README.md
 ```
 
-# Exercises/Module Breakdown
+## Module-by-Module Overview
 
-- Exercise 01: [Brief description]
-- Exercise 02: [Brief description] 
+### `module_0` — Foundations
+- `ex0` to `ex4`: first functions, arithmetic, conditionals, formatted output.
+- `ex5`: iterative and recursive counting implementations.
+- `ex6` to `ex7`: summary/inventory style exercises.
 
-*(Customize breakdown as necessary)*
+### `module_1` — Structured Functions & Small Systems
+- Garden-themed scripts with typed functions and cleaner `main()` flows.
+- Includes object/factory-style exercise (`ft_plant_factory.py`) and analytics-style tasks.
+- `subject/en.subject.pdf` contains the assignment statement.
 
-# Contribution Guidelines
+### `module_2` — Exceptions
+- `try/except/finally`, explicit `raise`, custom errors.
+- Progresses from single error checks to small management scripts.
 
-1. Fork the repository.
-2. Create your feature branch (`git checkout -b feature/MyFeature`).
-3. Commit your changes (`git commit -m 'Add some feature'`).
-4. Push to the branch (`git push origin feature/MyFeature`).
-5. Open a pull request.
+### `module_3` — Arguments, Data Structures, and Analytics Flows
+- Command-line argument processing (`sys.argv`).
+- Coordinates/tuples, tracking systems, inventory and stream-like handling.
 
-# Coding Style
+### `module_4` — Files and Recovery Workflows
+- File opening/reading/writing and robust cleanup in `finally` blocks.
+- Exercises model archive, vault, and crisis recovery scenarios.
 
-This project follows [PEP 8](https://www.python.org/dev/peps/pep-0008/) style guidelines. Please ensure your code adheres to these standards.
+### `module_5` — Abstractions and Pipelines
+- Abstract base classes and protocols (`ABC`, `Protocol`).
+- Multi-stage processing systems with adapters and centralized managers.
 
-# Testing
+### `module_6` — Imports & Packages
+- Import strategies (`import x`, `from x import y`, aliasing).
+- Package structure in `alchemy/` with nested subpackages (`grimoire/`, `transmutation/`).
+- Circular import and module path exploration scripts.
 
-To run tests, you can use the following command:
+### `module_7` — OOP Patterns (Card Game)
+- Base/derived card classes and enums.
+- Composition (`Deck`), interfaces/protocol-like abstractions, strategy/factory patterns.
+- Tournament ranking platform in `ex4`.
+
+### `module_8` — Environment & Dependency Management
+- `ex0/construct.py`: detect global vs virtual environment.
+- `ex1/loading.py`: dynamic imports and dependency checks.
+- `ex2/oracle.py`: load configuration from `.env` using `python-dotenv`.
+
+### `module_9` — Validation with Pydantic
+- Typed data models with constrained fields and custom validators.
+- Examples include space station, alien contact, and crew/mission validation.
+
+### `module_10` — Functional Python
+- Lambda expressions, `map/filter/sorted` functional flows.
+- Higher-order behavior, scope exercises, `functools`, and decorators.
+
+## Quick Start
+
+### 1) Create and activate a virtual environment
 ```bash
-pytest
+python3 -m venv .venv
+source .venv/bin/activate
 ```
 
-# Linting
-
-We use `flake8` for linting. Ensure to run it before committing:
+### 2) Install dependencies used in advanced modules
 ```bash
-flake8 .
+pip install pydantic python-dotenv numpy pandas matplotlib requests
 ```
 
-# License
+### 3) Run any exercise directly
+```bash
+python module_0/ex0/ft_hello_garden.py
+python module_5/ex0/stream_processor.py
+python module_9/ex0/space_station.py
+```
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+## Notes
 
----  
-**Note:** Some sections are placeholders and should be customized according to the specific needs and content of the repository.
+- Some files intentionally demonstrate failure/error cases as part of the exercises.
+- A few filenames contain a leading space (for example in `module_0/ex5` and `module_3/ex1`), so quote paths in shell commands when needed.
+- `module_8/ex1` includes both `requirements.txt` and `pyproject.toml` (Poetry-style setup example).
+
+## Suggested Learning Order
+
+Follow modules in numeric order (`module_0` to `module_10`) for the smoothest progression.
